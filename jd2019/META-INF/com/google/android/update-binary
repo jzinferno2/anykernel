@@ -27,7 +27,7 @@ ui_print " ";
 ui_print "=================================================";
 ui_print " Kernel version   : 4.9.325-jzinferno";
 ui_print " Android version  : 11+ (Minimal Api 30)";
-ui_print " Device           : Lenovo Z5s (L78071)";
+ui_print " Device           : Lenovo Z5s (jd2019)";
 ui_print " Author           : Zaharchenko (jzinferno)";
 ui_print "=================================================";
 

@@ -9,6 +9,11 @@ ui_print() {
   echo "ui_print" >> $OUTFD;
 }
 
+if [ $(getprop ro.product.device) != "kunlun2" ]; then
+  ui_print " This kernel is only available for kunlun2 device!";
+  exit 1;
+fi
+
 s='\\''\\';
 
 ui_print "  __                                    ___       ";

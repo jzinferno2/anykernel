@@ -27,7 +27,11 @@ ui_print " ";
 ui_print "=================================================";
 ui_print " Kernel version   : 4.9.325-jzinferno";
 ui_print " Android version  : 11+ (Minimal Api 30)";
-ui_print " Device           : Lenovo Z6 Lite (kunlun2)";
+if [ $(getprop ro.product.device) = "kunlun2" ]; then
+  ui_print " Device           : Lenovo Z6 Lite (kunlun2)";
+else
+  ui_print " Device           : Lenovo K10 Note (kunlun2_row)";
+elif
 ui_print " Author           : Zaharchenko (jzinferno)";
 ui_print "=================================================";
 

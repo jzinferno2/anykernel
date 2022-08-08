@@ -14,11 +14,6 @@ if ! { [ $(getprop ro.product.device) = "kunlun2" ] || [ $(getprop ro.product.de
   exit 1;
 fi
 
-if [ $(getprop ro.build.version.sdk) -lt 30 ]; then
-  ui_print " Minimum Available API 30 (Android 11) !";
-  exit 1;
-fi
-
 s='\\''\\';
 
 ui_print "  __                                    ___       ";
@@ -31,6 +26,7 @@ ui_print "     \/_/\/_/\/____/ \/_/  \/_/\/_/\/____/\/____/ ";
 ui_print " ";
 ui_print "=================================================";
 ui_print " Kernel version   : 4.9.325-jzinferno";
+ui_print " Android version  : 11+ (Minimal Api 30)";
 ui_print " Device           : Lenovo Z6 Lite (L38111)";
 ui_print " Author           : Zaharchenko (jzinferno)";
 ui_print "=================================================";

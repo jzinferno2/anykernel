@@ -12,7 +12,7 @@ ui_print() {
 if [ ! $(getprop ro.product.device) = "jd2019" ]; then
   ui_print " This kernel is only available for jd2019 device!";
   exit 1;
-fi
+fi;
 
 s='\\''\\';
 
@@ -41,7 +41,7 @@ if [ -f $JHOME/boot.img ]; then
 else
   ui_print " boot.img not found!";
   exit 1;
-fi
+fi;
 
 echo "progress 1 1" >> $OUTFD;
 
@@ -50,7 +50,7 @@ if [ -f $JHOME/dtbo.img ]; then
   dd if=$JHOME/dtbo.img of=$BLOCK/dtbo;
 else
   ui_print " dtbo.img not found!";
-fi
+fi;
 
 rm -rf $JHOME;
 exit 0;

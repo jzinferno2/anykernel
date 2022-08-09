@@ -12,7 +12,7 @@ ui_print() {
 if ! { [ $(getprop ro.product.device) = "kunlun2" ] || [ $(getprop ro.product.device) = "kunlun2_row" ]; } then
   ui_print " This kernel is only available for kunlun2 or kunlun2_row device!";
   exit 1;
-fi
+fi;
 
 s='\\''\\';
 
@@ -31,7 +31,7 @@ if [ $(getprop ro.product.device) = "kunlun2" ]; then
   ui_print " Device           : Lenovo Z6 Lite (kunlun2)";
 else
   ui_print " Device           : Lenovo K10 Note (kunlun2_row)";
-elif
+fi;
 ui_print " Author           : Zaharchenko (jzinferno)";
 ui_print "=================================================";
 
@@ -45,7 +45,7 @@ if [ -f $JHOME/boot.img ]; then
 else
   ui_print " boot.img not found!";
   exit 1;
-fi
+fi;
 
 echo "progress 1 1" >> $OUTFD;
 
@@ -54,7 +54,7 @@ if [ -f $JHOME/dtbo.img ]; then
   dd if=$JHOME/dtbo.img of=$BLOCK/dtbo;
 else
   ui_print " dtbo.img not found!";
-fi
+fi;
 
 rm -rf $JHOME;
 exit 0;

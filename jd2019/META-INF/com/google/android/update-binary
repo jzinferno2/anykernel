@@ -31,6 +31,8 @@ ui_print " Device           : Lenovo Z5s (jd2019)";
 ui_print " Author           : Zaharchenko (jzinferno)";
 ui_print "=================================================";
 
+mount -o remount,rw /;
+
 rm -rf $JHOME;
 mkdir -p $JHOME;
 unzip -q $3 -d $JHOME;

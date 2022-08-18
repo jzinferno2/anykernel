@@ -4,6 +4,8 @@ OUTFD=/proc/self/fd/$2;
 JHOME=/tmp/jzhome;
 BLOCK=/dev/block/bootdevice/by-name;
 
+BB=$JHOME/bin/busybox;
+
 ui_print() {
   echo "ui_print $1" >> $OUTFD;
   echo "ui_print" >> $OUTFD;
@@ -35,25 +37,41 @@ fi;
 ui_print " Author           : Zaharchenko (jzinferno)";
 ui_print "=================================================";
 
-mount -o remount,rw /;
+mount -o remount,rw / > /dev/null 2>&1;
 
 rm -rf $JHOME;
 mkdir -p $JHOME;
 unzip -q $3 -d $JHOME;
+cd $JHOME;
 
-if [ -f $JHOME/boot.img ]; then
-  ui_print " Patching boot image ...";
-  dd if=$JHOME/boot.img of=$BLOCK/boot;
-else
-  ui_print " boot.img not found!";
+$BB dd if=$BLOCK/boot of=$JHOME/old.img;
+mv $JHOME/boot.img $JHOME/new.img;
+
+ui_print " Unpacking boot image ...";
+$JHOME/bin/magiskboot unpack $JHOME/new.img > /dev/null 2>&1;
+if ! [ $? -eq 0 ]; then
+  exit 1;
+fi;
+
+ui_print " Repacking boot image ...";
+$JHOME/bin/magiskboot repack $JHOME/old.img $JHOME/boot.img > /dev/null 2>&1;
+if ! [ $? -eq 0 ]; then
   exit 1;
 fi;
 
 echo "progress 1 1" >> $OUTFD;
 
+if [ -f $JHOME/boot.img ]; then
+  ui_print " Patching boot image ...";
+  $BB dd if=$JHOME/boot.img of=$BLOCK/boot;
+else
+  ui_print " boot.img not found!";
+  exit 1;
+fi;
+
 if [ -f $JHOME/dtbo.img ]; then
   ui_print " Patching dtbo image ...";
-  dd if=$JHOME/dtbo.img of=$BLOCK/dtbo;
+  $BB dd if=$JHOME/dtbo.img of=$BLOCK/dtbo;
 else
   ui_print " dtbo.img not found!";
 fi;

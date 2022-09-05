@@ -44,16 +44,16 @@ mkdir -p $JHOME;
 unzip -q $3 -d $JHOME;
 cd $JHOME;
 
+ui_print " - Dump stock boot.img ...";
 $BB dd if=$BLOCK/boot of=$JHOME/old.img;
-mv $JHOME/boot.img $JHOME/new.img;
 
-ui_print " Unpacking boot image ...";
-$JHOME/bin/magiskboot unpack $JHOME/new.img > /dev/null 2>&1;
+ui_print " - Split kernel ...";
+$JHOME/bin/magiskboot split $JHOME/Image.gz-dtb > /dev/null 2>&1;
 if ! [ $? -eq 0 ]; then
   exit 1;
 fi;
 
-ui_print " Repacking boot image ...";
+ui_print " - Repacking boot image ...";
 $JHOME/bin/magiskboot repack $JHOME/old.img $JHOME/boot.img > /dev/null 2>&1;
 if ! [ $? -eq 0 ]; then
   exit 1;
@@ -62,7 +62,7 @@ fi;
 echo "progress 1 1" >> $OUTFD;
 
 if [ -f $JHOME/boot.img ]; then
-  ui_print " Patching boot image ...";
+  ui_print " - Patching boot image ...";
   $BB dd if=$JHOME/boot.img of=$BLOCK/boot;
 else
   ui_print " boot.img not found!";
@@ -70,7 +70,7 @@ else
 fi;
 
 if [ -f $JHOME/dtbo.img ]; then
-  ui_print " Patching dtbo image ...";
+  ui_print " - Patching dtbo image ...";
   $BB dd if=$JHOME/dtbo.img of=$BLOCK/dtbo;
 else
   ui_print " dtbo.img not found!";

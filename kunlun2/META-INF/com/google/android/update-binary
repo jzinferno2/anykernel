@@ -24,7 +24,7 @@ ui_print "   \ \ \ — _/\  __/\ \ \/ /\ \/\ \/\  __/ \_\ \_  ";
 ui_print "    \ \_\-\_\ \____$s \_\ \ \_\ \_\ \____\/\____\ ";
 ui_print "     \/_/\/_/\/____/ \/_/  \/_/\/_/\/____/\/____/ ";
 ui_print " ";
-ui_print "=================================================";
+ui_print "================================================= ";
 ui_print " Kernel version   : KERNELVERSION";
 if [ $(getprop ro.product.device) = "kunlun2" ]; then
   ui_print " Device           : Lenovo Z6 Lite (kunlun2)";
@@ -32,7 +32,7 @@ else
   ui_print " Device           : Lenovo K10 Note (kunlun2_row)";
 fi;
 ui_print " Author           : Zaharchenko (jzinferno)";
-ui_print "=================================================";
+ui_print "================================================= ";
 
 mount -o remount,rw / > /dev/null 2>&1;
 
@@ -41,47 +41,57 @@ mkdir -p $JHOME;
 unzip -q $3 -d $JHOME;
 cd $JHOME;
 
-ui_print " - Dump stock boot.img ...";
+for i in Image Image-dtb Image.gz Image.gz-dtb Image.bz2 Image.bz2-dtb Image.lzo Image.lzo-dtb Image.lzma Image.lzma-dtb Image.xz Image.xz-dtb Image.lz4 Image.lz4-dtb; do
+  if [ -f $i ]; then
+    kernel=$JHOME/$i;
+    break;
+  fi;
+done;
+
+if [ ! $kernel ]; then
+  ui_print " Kernel image not found!";
+  exit 1;
+fi;
+
+ui_print " - Found boot image: $BLOCK/boot";
 dd if=$BLOCK/boot of=$JHOME/old.img;
 
-ui_print " - Unpacking boot image ...";
+ui_print " - Unpacking boot image";
 $JHOME/bin/magiskboot unpack $JHOME/old.img > /dev/null 2>&1;
 if ! [ $? -eq 0 ]; then
   exit 1;
 fi;
 
-ui_print " - Split Image.gz-dtb ...";
+ui_print " - Splitting $(basename $kernel)";
 rm -rf kernel kernel_dtb;
-$JHOME/bin/magiskboot split $JHOME/Image.gz-dtb > /dev/null 2>&1;
+$JHOME/bin/magiskboot split $kernel > /dev/null 2>&1;
 if ! [ $? -eq 0 ]; then
   exit 1;
 fi;
 
 if [ -f $JHOME/ramdisk.cpio ]; then
-  ui_print " - Magisk detected ...";
+  ui_print " - Patching kernel for Magisk";
   $JHOME/bin/magiskboot hexpatch kernel 736B69705F696E697472616D667300 77616E745F696E697472616D667300;
 fi;
 
-ui_print " - Repacking boot image ...";
+ui_print " - Repacking boot image";
 $JHOME/bin/magiskboot repack $JHOME/old.img $JHOME/boot.img > /dev/null 2>&1;
 if ! [ $? -eq 0 ]; then
   exit 1;
 fi;
 
 if [ -f $JHOME/boot.img ]; then
-  ui_print " - Patching boot image ...";
+  ui_print " - Flashing new boot image";
   dd if=$JHOME/boot.img of=$BLOCK/boot;
-else
-  ui_print " boot.img not found!";
-  exit 1;
 fi;
 
 if [ -f $JHOME/dtbo.img ]; then
-  ui_print " - Patching dtbo image ...";
+  ui_print " - Flashing new dtbo image";
   dd if=$JHOME/dtbo.img of=$BLOCK/dtbo;
-else
-  ui_print " dtbo.img not found!";
 fi;
 
+ui_print " - Cleanup"
 rm -rf $JHOME;
+
+ui_print " - Done";
 exit 0;

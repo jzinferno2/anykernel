@@ -25,7 +25,6 @@ ui_print "    \ \_\-\_\ \____$s \_\ \ \_\ \_\ \____\/\____\ ";
 ui_print "     \/_/\/_/\/____/ \/_/  \/_/\/_/\/____/\/____/ ";
 ui_print " ";
 ui_print "================================================= ";
-ui_print " Kernel version   : KERNELVERSION";
 ui_print " Device           : Lenovo Z5s (jd2019)";
 ui_print " Author           : Zaharchenko (jzinferno)";
 ui_print "================================================= ";

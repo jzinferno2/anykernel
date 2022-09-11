@@ -25,7 +25,6 @@ ui_print "    \ \_\-\_\ \____$s \_\ \ \_\ \_\ \____\/\____\ ";
 ui_print "     \/_/\/_/\/____/ \/_/  \/_/\/_/\/____/\/____/ ";
 ui_print " ";
 ui_print "================================================= ";
-ui_print " Kernel version   : KERNELVERSION";
 if [ $(getprop ro.product.device) = "kunlun2" ]; then
   ui_print " Device           : Lenovo Z6 Lite (kunlun2)";
 else

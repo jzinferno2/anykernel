@@ -15,7 +15,7 @@ if ! { [ $(getprop ro.product.device) = "kunlun2" ] || [ $(getprop ro.product.de
 fi;
 
 s='\\''\\';
-
+ui_print "================================================= ";
 ui_print "  __                                    ___       ";
 ui_print " /\ \  _                               /\_ \      ";
 ui_print " \ \ \/ \     ___   _ __    ___     ___\//\ \     ";
@@ -37,7 +37,7 @@ mount -o remount,rw / > /dev/null 2>&1;
 
 rm -rf $JHOME;
 mkdir -p $JHOME;
-unzip -q $3 -d $JHOME;
+unzip -q "$3" -d $JHOME;
 cd $JHOME;
 
 for i in Image Image-dtb Image.gz Image.gz-dtb Image.bz2 Image.bz2-dtb Image.lzo Image.lzo-dtb Image.lzma Image.lzma-dtb Image.xz Image.xz-dtb Image.lz4 Image.lz4-dtb; do

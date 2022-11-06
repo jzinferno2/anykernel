@@ -5,7 +5,7 @@ JHOME=/tmp/jzhome;
 BLOCK=/dev/block/bootdevice/by-name;
 
 ui_print() {
-  echo "ui_print $1
+  echo -e "ui_print $1
   ui_print" >> $OUTFD;
 }
 
@@ -24,13 +24,13 @@ ui_print "   \ \ \ — _/\  __/\ \ \/ /\ \/\ \/\  __/ \_\ \_  ";
 ui_print "    \ \_\-\_\ \____$s \_\ \ \_\ \_\ \____\/\____\ ";
 ui_print "     \/_/\/_/\/____/ \/_/  \/_/\/_/\/____/\/____/ ";
 ui_print " ";
+ui_print "                   by jzinferno                   ";
 ui_print "================================================= ";
 if [ $(getprop ro.product.device) = "kunlun2" ]; then
   ui_print " Device           : Lenovo Z6 Lite (kunlun2)";
 else
   ui_print " Device           : Lenovo K10 Note (kunlun2_row)";
 fi;
-ui_print " Author           : Zaharchenko (jzinferno)";
 ui_print "================================================= ";
 
 mount -o remount,rw / > /dev/null 2>&1;
@@ -52,7 +52,7 @@ if [ ! $kernel ]; then
   exit 1;
 fi;
 
-ui_print " - Found boot image: $BLOCK/boot";
+ui_print " - Boot image: $BLOCK/boot";
 dd if=$BLOCK/boot of=$JHOME/old.img;
 
 ui_print " - Unpacking boot image";
